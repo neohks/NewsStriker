@@ -19,8 +19,12 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.nksexample.newsstrike.bottomNav.NewsHomeFragment;
+import com.nksexample.newsstrike.bottomNav.ProfileFragment;
+import com.nksexample.newsstrike.bottomNav.SearchFragment;
 
 import java.util.ArrayList;
 
@@ -29,9 +33,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean isLoggedIn = false;
     TextView tvMainTest;
     Switch sLoginOut;
-    
-    TabLayout tabLayout;
-    ViewPager viewPager;
+
+    private BottomNavigationView bottomNavigationView;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +58,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Associations
-        tabLayout = findViewById(R.id.tab_layout);
-        viewPager = findViewById(R.id.view_pager);
 
-        //Setup Tablayout with ViewPager
-        prepareViewPager(viewPager);
-        tabLayout.setupWithViewPager(viewPager);
+
+        //Setup BottomNavigation
+        bottomNavigationView = findViewById(R.id.bottomNav);
+        bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavItemSelectListener);
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, new NewsHomeFragment()).commit();
+
+
 
     }
 
@@ -68,23 +75,33 @@ public class MainActivity extends AppCompatActivity {
         invalidateOptionsMenu();
     }
 
-    //Pager
-    private void prepareViewPager(ViewPager vp){
-        //Initialize VPager
-        VPagerAdapter adapter = new VPagerAdapter(getSupportFragmentManager());
+    private BottomNavigationView.OnNavigationItemSelectedListener bottomNavItemSelectListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        //Initialize all fragments
-        LocalNewsFragment localNewsFragment = new LocalNewsFragment();
-        WorldNewsFragment worldNewsFragment = new WorldNewsFragment();
-        TrendNewsFragment trendNewsFragment = new TrendNewsFragment();
+            Fragment fragment = null;
 
-        adapter.addFragment(localNewsFragment, "Local");
-        adapter.addFragment(worldNewsFragment, "World");
-        adapter.addFragment(trendNewsFragment, "Trend");
+            switch (item.getItemId()){
+                case R.id.btmNavHome:
+                    fragment = new NewsHomeFragment();
+                    break;
+                case R.id.btmNavSearch:
+                    fragment = new SearchFragment();
+                    break;
+                case R.id.btmNavProfile:
+                    fragment = new ProfileFragment();
+                    break;
+                default:
+                    break;
 
-        viewPager.setAdapter(adapter);
+            }
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
 
-    }
+            return true;
+        }
+    };
+
+
 
     //Menu
     @Override

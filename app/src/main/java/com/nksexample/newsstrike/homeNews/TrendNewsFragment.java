@@ -1,4 +1,4 @@
-package com.nksexample.newsstrike;
+package com.nksexample.newsstrike.homeNews;
 
 import android.os.Bundle;
 
@@ -7,14 +7,15 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
+import com.nksexample.newsstrike.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link LocalNewsFragment#newInstance} factory method to
+ * Use the {@link TrendNewsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LocalNewsFragment extends Fragment {
+public class TrendNewsFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,7 +26,7 @@ public class LocalNewsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public LocalNewsFragment() {
+    public TrendNewsFragment() {
         // Required empty public constructor
     }
 
@@ -35,11 +36,11 @@ public class LocalNewsFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment LocalNewsFrag.
+     * @return A new instance of fragment TrendNewsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static LocalNewsFragment newInstance(String param1, String param2) {
-        LocalNewsFragment fragment = new LocalNewsFragment();
+    public static TrendNewsFragment newInstance(String param1, String param2) {
+        TrendNewsFragment fragment = new TrendNewsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,18 +60,7 @@ public class LocalNewsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        //Initialize view
-        View viewLocal = inflater.inflate(R.layout.fragment_local_news, container, false);
-
-        //Association
-        TextView tvLocal = viewLocal.findViewById(R.id.tvLocal);
-
-        // TODO: DO ALL THE API
-
-        //Return view
-        return viewLocal;
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_trend_news, container, false);
     }
-
-
 }
