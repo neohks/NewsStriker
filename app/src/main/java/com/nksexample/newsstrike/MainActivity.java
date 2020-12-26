@@ -1,40 +1,64 @@
 package com.nksexample.newsstrike;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
-    boolean isLoggedIn = false;
+    public boolean isLoggedIn = false;
     TextView tvMainTest;
     Switch sLoginOut;
+    
+    TabLayout tabLayout;
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tvMainTest = findViewById(R.id.tvMainTest);
-        sLoginOut = findViewById(R.id.sLoginOut);
+//        tvMainTest = findViewById(R.id.tvMainTest);
+//        sLoginOut = findViewById(R.id.sLoginOut);
+//
+//        sLoginOut.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+////                Toast.makeText(MainActivity.this, String.valueOf(isChecked), Toast.LENGTH_SHORT).show();
+//                isLoggedIn = isChecked;
+//                updateUI();
+//            }
+//        });
+//        updateUI();
 
-        sLoginOut.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                Toast.makeText(MainActivity.this, String.valueOf(isChecked), Toast.LENGTH_SHORT).show();
-                isLoggedIn = isChecked;
-                updateUI();
-            }
-        });
 
-        updateUI();
+        //Associations
+        tabLayout = findViewById(R.id.tab_layout);
+        viewPager = findViewById(R.id.view_pager);
+
+        //Setup Tablayout with ViewPager
+        prepareViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager);
 
     }
 
@@ -44,6 +68,25 @@ public class MainActivity extends AppCompatActivity {
         invalidateOptionsMenu();
     }
 
+    //Pager
+    private void prepareViewPager(ViewPager vp){
+        //Initialize VPager
+        VPagerAdapter adapter = new VPagerAdapter(getSupportFragmentManager());
+
+        //Initialize all fragments
+        LocalNewsFragment localNewsFragment = new LocalNewsFragment();
+        WorldNewsFragment worldNewsFragment = new WorldNewsFragment();
+        TrendNewsFragment trendNewsFragment = new TrendNewsFragment();
+
+        adapter.addFragment(localNewsFragment, "Local");
+        adapter.addFragment(worldNewsFragment, "World");
+        adapter.addFragment(trendNewsFragment, "Trend");
+
+        viewPager.setAdapter(adapter);
+
+    }
+
+    //Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menudots, menu);
@@ -86,4 +129,11 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
+
+
+
+
+
+
+
 }
