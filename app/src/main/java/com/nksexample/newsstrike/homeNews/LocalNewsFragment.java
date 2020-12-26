@@ -1,15 +1,23 @@
 package com.nksexample.newsstrike.homeNews;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.nksexample.newsstrike.model.NewsModel;
 import com.nksexample.newsstrike.R;
+import com.nksexample.newsstrike.RViewAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,61 +26,70 @@ import com.nksexample.newsstrike.R;
  */
 public class LocalNewsFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    RecyclerView rvLocalNews;
+    RViewAdapter rViewAdapter;
+    private ProgressDialog progressDialog;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    TextView test;
 
-    public LocalNewsFragment() {
-        // Required empty public constructor
-    }
+    List<NewsModel> newsModelList;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LocalNewsFrag.
-     */
-    // TODO: Rename and change types and number of parameters
+    private static final String url="http://newsapi.org/v2/top-headlines?country=my&apiKey=b24fd2dbf4fa4d1c9364b00fe1cfeb82";
+
+
+    public LocalNewsFragment() {}
+
     public static LocalNewsFragment newInstance(String param1, String param2) {
         LocalNewsFragment fragment = new LocalNewsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //Initialize view
         View viewLocal = inflater.inflate(R.layout.fragment_local_news, container, false);
 
-        //Association
-        TextView tvLocal = viewLocal.findViewById(R.id.tvLocal);
+        //Setup Recycle View
+        rvLocalNews = viewLocal.findViewById(R.id.rvLocalNews);
+        newsModelList = new ArrayList<>();
+        rvLocalNews.setHasFixedSize(true);
+        rvLocalNews.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
-        // TODO: DO ALL THE API
+        progressDialog = new ProgressDialog(getContext(), R.style.Widget_AppCompat_ProgressBar);
+        progressDialog.setMessage("Fetching. . .");
+        loadAllNews();
 
-        //Return view
         return viewLocal;
     }
 
+
+    //Whenever is visible to user, refresh to get the latest news
+    @Override
+    public void setMenuVisibility(boolean menuVisible) {
+        super.setMenuVisibility(menuVisible);
+
+        //If visible, load the news
+        if (!menuVisible)
+            return;
+
+
+        loadAllNews();
+
+
+
+
+    }
+
+
+    private void loadAllNews() {
+
+    }
 
 }
