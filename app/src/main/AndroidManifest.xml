@@ -12,7 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NewsStrike">
-        <activity android:name=".NewsDetailActivity"></activity>
+        <activity
+            android:name=".NewsDetailActivity"
+            android:theme="@style/Theme.NewsStrike.NoActionBar"
+            android:parentActivityName=".MainActivity">
+
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LoginActivity" />
+
+        </activity>
         <activity
             android:name=".SignupActivity"
             android:label="Signup"
