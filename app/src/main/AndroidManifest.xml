@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,19 +12,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NewsStrike">
+        <activity android:name=".NewsDetailActivity"></activity>
         <activity
             android:name=".SignupActivity"
             android:label="Signup"
             android:parentActivityName=".LoginActivity">
+
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".LoginActivity" />
         </activity>
-
         <activity
-            android:label="Login"
             android:name=".LoginActivity"
+            android:label="Login"
             android:parentActivityName=".MainActivity">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
@@ -32,10 +33,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-
         <activity
-            android:label="Settings"
             android:name=".SettingsActivity"
+            android:label="Settings"
             android:parentActivityName=".MainActivity">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
@@ -44,8 +44,8 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:label="Feedback"
             android:name=".FeedbackActivity"
+            android:label="Feedback"
             android:parentActivityName=".MainActivity">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->

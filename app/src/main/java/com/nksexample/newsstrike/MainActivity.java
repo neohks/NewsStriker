@@ -67,14 +67,10 @@ public class MainActivity extends AppCompatActivity {
 //        });
 //        updateUI();
 
-
-
-
-        //Setup BottomNavigation
-
+        // Check Internet Permission
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.INTERNET) == PackageManager.PERMISSION_DENIED)
             requestInternetPermission();
-
+        //Setup BottomNavigation
         bottomNavigationView = findViewById(R.id.bottomNav);
         bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavItemSelectListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.container, new NewsHomeFragment()).commit();

@@ -1,68 +1,46 @@
 package com.nksexample.newsstrike.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 public class NewsModel {
 
-    private String articleName, title, description, url, urlToImage, publishedAt;
-    public NewsModel(){
+    @SerializedName("status")
+    @Expose
+    private String status;
 
+    @SerializedName("totalResult")
+    @Expose
+    private int totalResult;
+
+    @SerializedName("articles")
+    @Expose
+    private List<ArticleModel> article;
+
+    public String getStatus() {
+        return status;
     }
 
-    public NewsModel(String articleName, String title, String description, String url, String urlToImage, String publishedAt) {
-        this.articleName = articleName;
-        this.title = title;
-        this.description = description;
-        this.url = url;
-        this.urlToImage = urlToImage;
-        this.publishedAt = publishedAt;
-
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public String getArticleName() {
-        return articleName;
+    public int getTotalResult() {
+        return totalResult;
     }
 
-    public void setArticleName(String name) {
-        this.articleName = name;
+    public void setTotalResult(int totalResult) {
+        this.totalResult = totalResult;
     }
 
-    public String getTitle() {
-        return title;
+    public List<ArticleModel> getArticle() {
+        return article;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getUrlToImage() {
-        return urlToImage;
-    }
-
-    public void setUrlToImage(String urlToImage) {
-        this.urlToImage = urlToImage;
-    }
-
-    public String getPublishedAt() {
-        return publishedAt;
-    }
-
-    public void setPublishedAt(String publishedAt) {
-        this.publishedAt = publishedAt;
+    public void setArticle(List<ArticleModel> article) {
+        this.article = article;
     }
 
 }

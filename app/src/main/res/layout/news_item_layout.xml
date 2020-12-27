@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
@@ -40,21 +42,23 @@
                 android:layout_height="10dp"
                 android:layout_marginStart="4dp"
                 android:padding="2dp"
-                app:layout_constraintBottom_toBottomOf="@+id/tvArticleName"
-                app:layout_constraintStart_toEndOf="@+id/tvArticleName"
-                app:layout_constraintTop_toTopOf="@+id/tvArticleName"
+                app:layout_constraintBottom_toBottomOf="@+id/tvSourceName"
+                app:layout_constraintStart_toEndOf="@+id/tvSourceName"
+                app:layout_constraintTop_toTopOf="@+id/tvSourceName"
                 app:srcCompat="@android:drawable/presence_invisible" />
 
             <TextView
-                android:id="@+id/tvArticleName"
+                android:id="@+id/tvSourceName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:padding="2dp"
                 android:text="The Times of India"
                 android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/ivNewsImage"
-                app:layout_constraintTop_toBottomOf="@+id/ivNewsImage" />
+                app:layout_constraintTop_toBottomOf="@+id/ivNewsImage"
+                app:layout_constraintVertical_bias="0.17000002" />
 
             <TextView
                 android:id="@+id/tvNewsTitle"
@@ -80,30 +84,62 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:padding="2dp"
-                android:text="01-05-2020 12:45 AM"
+                android:text="01-05-2020"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/ivDot"
                 app:layout_constraintStart_toEndOf="@+id/ivDot"
                 app:layout_constraintTop_toTopOf="@+id/ivDot" />
 
             <TextView
+                android:id="@+id/tvAuthorName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:text="Somebody Name"
+                android:textSize="12sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvBy"
+                app:layout_constraintStart_toEndOf="@+id/tvBy" />
+
+            <TextView
                 android:id="@+id/tvNewsDesc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="News Desc"
-                android:textColor="#000000"
-                android:textSize="16sp"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:paddingBottom="6dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/ivNewsImage"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/ivNewsImage"
-                app:layout_constraintTop_toBottomOf="@+id/ivDot"
-                app:layout_constraintVertical_bias="0.009" />
+                android:text="News Desc"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tvBy"
+                app:layout_constraintTop_toBottomOf="@+id/tvBy" />
+
+            <TextView
+                android:id="@+id/tvBy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="6dp"
+                android:text="By : "
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@+id/tvSourceName"
+                app:layout_constraintTop_toBottomOf="@+id/tvSourceName" />
+
+            <TextView
+                android:id="@+id/tvNewsTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12:45 AM"
+                android:layout_marginStart="4dp"
+                android:padding="2dp"
+                android:textSize="12sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvNewsDate"
+                app:layout_constraintStart_toEndOf="@+id/tvNewsDate" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
