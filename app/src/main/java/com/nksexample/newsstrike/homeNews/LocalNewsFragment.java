@@ -75,7 +75,7 @@ public class LocalNewsFragment extends Fragment implements SwipeRefreshLayout.On
         rvLocalNews.setItemAnimator(new DefaultItemAnimator());
         rvLocalNews.setNestedScrollingEnabled(false);
 
-        loadAllNews("");
+        loadAllNews();
 
         return viewLocal;
     }
@@ -90,40 +90,40 @@ public class LocalNewsFragment extends Fragment implements SwipeRefreshLayout.On
         if (!menuVisible)
             return;
         if (swipeRefreshLayout != null)
-            loadAllNews("");
+            loadAllNews();
 
     }
 
     @Override
     public void onRefresh() {
 
-        loadJSON("");
+        loadJSON();
 
     }
 
-    private void loadAllNews(final String keyword) {
+    private void loadAllNews() {
 
         swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                loadJSON(keyword);
+                loadJSON();
             }
         });
     }
 
 
-    public void loadJSON(final String keyword){
+    public void loadJSON(){
 
         swipeRefreshLayout.setRefreshing(true);
 
         APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
 
-        String country = Utils.getCountry();
+//        String country = Utils.getCountry();
 //        String language = Utils.getLanguage(); //If only when search then need
 
         Call<NewsModel> call;
 
-        call = apiInterface.getLocalNews(country, API_KEY);
+        call = apiInterface.getLocalNews("my", API_KEY);
 
         call.enqueue(new Callback<NewsModel>() {
             @Override

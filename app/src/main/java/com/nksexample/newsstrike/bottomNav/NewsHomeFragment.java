@@ -10,11 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.tabs.TabLayout;
+import com.nksexample.newsstrike.homeNews.CovidNewsFragment;
 import com.nksexample.newsstrike.homeNews.LocalNewsFragment;
 import com.nksexample.newsstrike.R;
 import com.nksexample.newsstrike.homeNews.TrendNewsFragment;
 import com.nksexample.newsstrike.VPagerAdapter;
-import com.nksexample.newsstrike.homeNews.WorldNewsFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -74,12 +74,12 @@ public class NewsHomeFragment extends Fragment {
 
         //Initialize all fragments
         LocalNewsFragment localNewsFragment = new LocalNewsFragment();
-        WorldNewsFragment worldNewsFragment = new WorldNewsFragment();
+        CovidNewsFragment covidNewsFragment = new CovidNewsFragment();
         TrendNewsFragment trendNewsFragment = new TrendNewsFragment();
 
         adapter.addFragment(localNewsFragment, "Local");
-        adapter.addFragment(worldNewsFragment, "World");
         adapter.addFragment(trendNewsFragment, "Trend");
+        adapter.addFragment(covidNewsFragment, "Covid");
 
         viewPager.setAdapter(adapter);
 

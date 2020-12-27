@@ -16,18 +16,11 @@ public interface  APIInterface {
 
     );
 
-    @GET("top-headlines")
-    Call<NewsModel> getTrendNews(
-
-            @Query("q") String country,
-            @Query("apiKey") String apiKey
-
-    );
-
     @GET("everything")
-    Call<NewsModel> getCovidNews(
+    Call<NewsModel> getNews(
 
             @Query("q") String keyword,
+            @Query("language") String language,
             @Query("apiKey") String apiKey
 
     );

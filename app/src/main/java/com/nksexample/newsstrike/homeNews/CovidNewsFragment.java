@@ -31,12 +31,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TrendNewsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class TrendNewsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+
+public class CovidNewsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     public static final String API_KEY = "b24fd2dbf4fa4d1c9364b00fe1cfeb82";
     private RecyclerView rvLocalNews;
@@ -46,10 +42,10 @@ public class TrendNewsFragment extends Fragment implements SwipeRefreshLayout.On
     private RecyclerView.LayoutManager layoutManager;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    public TrendNewsFragment() {   }
+    public CovidNewsFragment() {   }
 
-    public static TrendNewsFragment newInstance(String param1, String param2) {
-        TrendNewsFragment fragment = new TrendNewsFragment();
+    public static CovidNewsFragment newInstance(String param1, String param2) {
+        CovidNewsFragment fragment = new CovidNewsFragment();
         return fragment;
     }
 
@@ -59,15 +55,16 @@ public class TrendNewsFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-        // Initialize the layout for this fragment
-        View trendView = inflater.inflate(R.layout.fragment_trend_news, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View covidView = inflater.inflate(R.layout.fragment_covid_news, container, false);
 
-        swipeRefreshLayout = trendView.findViewById(R.id.srLayout);
+        swipeRefreshLayout = covidView.findViewById(R.id.srLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
-        rvLocalNews = trendView.findViewById(R.id.rvLocalNews);
+        rvLocalNews = covidView.findViewById(R.id.rvLocalNews);
         layoutManager = new LinearLayoutManager(getContext());
         rvLocalNews.setLayoutManager(layoutManager);
         rvLocalNews.setItemAnimator(new DefaultItemAnimator());
@@ -75,8 +72,7 @@ public class TrendNewsFragment extends Fragment implements SwipeRefreshLayout.On
 
         loadAllNews();
 
-        return trendView;
-
+        return covidView;
     }
 
     @Override
@@ -120,7 +116,7 @@ public class TrendNewsFragment extends Fragment implements SwipeRefreshLayout.On
 
         Call<NewsModel> call;
 
-        call = apiInterface.getNews("trend", language, API_KEY);
+        call = apiInterface.getNews("covid", language, API_KEY);
 
         call.enqueue(new Callback<NewsModel>() {
             @Override

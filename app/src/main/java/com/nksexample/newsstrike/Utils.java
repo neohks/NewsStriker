@@ -62,13 +62,13 @@ public class Utils {
     public static String getCountry(){
         Locale locale = Locale.getDefault();
         String country = String.valueOf(locale.getCountry());
-        return "my"; //fixed for now
+        return country.toLowerCase();
     }
 
     public static String getLanguage(){
         Locale locale = Locale.getDefault();
-        String country = String.valueOf(locale.getLanguage());
-        return "en"; //fixed for now
+        String lang = String.valueOf(locale.getLanguage());
+        return lang.toLowerCase();
     }
 
 }
