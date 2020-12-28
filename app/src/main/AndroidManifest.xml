@@ -12,16 +12,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NewsStrike">
+
+        <activity
+            android:name=".SearchQueryActivity">
+
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchQueryActivity" />
+
+<!--            <meta-data-->
+<!--                android:name="android.app.searchable"-->
+<!--                android:resource="@xml/searchable" />-->
+
+        </activity>
         <activity
             android:name=".NewsDetailActivity"
-            android:theme="@style/Theme.NewsStrike.NoActionBar"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.NewsStrike.NoActionBar">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".LoginActivity" />
-
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".SignupActivity"
@@ -36,7 +53,8 @@
         <activity
             android:name=".LoginActivity"
             android:label="Login"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/noAnimTheme">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
@@ -69,6 +87,12 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchQueryActivity" />
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
     </application>
 

@@ -12,6 +12,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -22,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.SearchView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     
     
     public boolean isLoggedIn = false;
+    private boolean isSearchPage = false;
     TextView tvMainTest;
     Switch sLoginOut;
 
@@ -74,8 +78,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNav);
         bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavItemSelectListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.container, new NewsHomeFragment()).commit();
-
-
 
     }
 
@@ -146,18 +148,48 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-
-
     //Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menudots, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        final SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setQueryHint("Search Latest News...");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (query.length() > 2){
+
+                    Intent intent = new Intent(MainActivity.this, SearchQueryActivity.class); //Showhow show the back buttom
+                    intent.putExtra("query", query);
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(MainActivity.this, "Type more than two letters!", Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                return false;
+            }
+        });
+
+//        searchMenuItem.getIcon().setVisible(false, false);
+
         return true;
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.removeItem(isLoggedIn ? R.id.menuLogin : R.id.menuLogout);
+        menu.removeItem(isSearchPage ? 0 :  R.id.action_search);
+
         return super.onPrepareOptionsMenu(menu);
     }
 

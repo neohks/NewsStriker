@@ -2,10 +2,14 @@ package com.nksexample.newsstrike.bottomNav;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -84,7 +88,6 @@ public class NewsHomeFragment extends Fragment {
         viewPager.setAdapter(adapter);
 
     }
-
 
 
 }
