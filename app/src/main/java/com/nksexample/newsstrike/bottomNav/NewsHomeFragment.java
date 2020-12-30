@@ -89,15 +89,15 @@ public class NewsHomeFragment extends Fragment {
                 intent = new Intent(getActivity(), FeedbackActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.menuLogout:
-                intent = new Intent(getActivity(), LoginActivity.class);
-                intent.putExtra("username", username);
-                startActivity(intent);
-                break;
-            case R.id.menuLogin:
-                intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
-                break;
+//            case R.id.menuLogout:
+//                intent = new Intent(getActivity(), LoginActivity.class);
+//                intent.putExtra("username", username);
+//                startActivity(intent);
+//                break;
+//            case R.id.menuLogin:
+//                intent = new Intent(getActivity(), LoginActivity.class);
+//                startActivity(intent);
+//                break;
             case R.id.menuSettings:
                 intent = new Intent(getActivity(), SettingsActivity.class);
                 startActivity(intent);

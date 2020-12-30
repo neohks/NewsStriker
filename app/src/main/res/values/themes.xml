@@ -17,6 +17,9 @@
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 
+    <style name="noAnimTheme" parent="Theme.NewsStrike"></style>
+
+    <!--Splash Screen Theme-->
     <style name="SplashScreen" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/background_splashscreen</item>
     </style>
@@ -26,8 +29,28 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="noAnimTheme" parent="Theme.NewsStrike">
+    <!--Light or Day Mode-->
+    <style name="LightTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">#520fe8</item>
+        <item name="colorPrimaryDark">#0021ca</item>
+        <item name="colorAccent">@color/purple_500</item>
+        <item name="backgroundColor">#fcfcfc</item>
+        <item name="cardBackground">#ffffff</item>
+        <item name="textColor">#818181</item>
+        <item name="tintColor">#000000</item>
+        <item name="buttonColor">#520fe8</item>
+    </style>
 
+    <!--Dark or Night Mode-->
+    <style name="DarkTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">#212121</item>
+        <item name="colorPrimaryDark">#000000</item>l
+        <item name="colorAccent">@color/purple_500</item>
+        <item name="backgroundColor">#313131</item>
+        <item name="cardBackground">#414141</item>
+        <item name="textColor">#ffffff</item>
+        <item name="tintColor">#ffffff</item>
+        <item name="buttonColor">#520fe8</item>
     </style>
 
 </resources>

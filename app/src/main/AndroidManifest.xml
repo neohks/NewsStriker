@@ -15,6 +15,7 @@
 
         <activity
             android:name=".WebViewActivity"
+            android:configChanges="uiMode"
             android:parentActivityName=".FavListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -22,12 +23,15 @@
         </activity>
         <activity
             android:name=".FavListActivity"
+            android:configChanges="uiMode"
             android:label="Favourite Lists">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".FavListActivity" />
         </activity>
-        <activity android:name=".SearchQueryActivity">
+        <activity
+            android:name=".SearchQueryActivity"
+            android:configChanges="uiMode">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -41,6 +45,7 @@
         </activity>
         <activity
             android:name=".NewsDetailActivity"
+            android:configChanges="uiMode"
             android:parentActivityName=".MainActivity"
             android:theme="@style/Theme.NewsStrike.NoActionBar">
 
@@ -69,6 +74,7 @@
         </activity>
         <activity
             android:name=".SettingsActivity"
+            android:configChanges="uiMode"
             android:label="Settings"
             android:parentActivityName=".MainActivity">
 
@@ -79,6 +85,7 @@
         </activity>
         <activity
             android:name=".FeedbackActivity"
+            android:configChanges="uiMode"
             android:label="Feedback"
             android:parentActivityName=".MainActivity">
 
@@ -87,7 +94,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".MainActivity">
+        <activity
+            android:configChanges="uiMode"
+            android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

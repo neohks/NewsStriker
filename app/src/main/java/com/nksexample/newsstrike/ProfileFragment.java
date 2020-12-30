@@ -22,7 +22,7 @@ public class ProfileFragment extends Fragment {
 
     ImageView ivUserAvatar;
     TextView tvUserName;
-    Button btnLogout, btnFavList;
+    Button btnFavList;
 
     public ProfileFragment() {   }
 
@@ -46,16 +46,10 @@ public class ProfileFragment extends Fragment {
         //Association
         ivUserAvatar = profileView.findViewById(R.id.ivUserAvatar);
         tvUserName = profileView.findViewById(R.id.tvUserName);
-        btnLogout = profileView.findViewById(R.id.btnLogout);
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Logout all status : https://stackoverflow.com/questions/3007998/on-logout-clear-activity-history-stack-preventing-back-button-from-opening-l
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
 
-            }
-        });
+        // TODO User System
+        //Logout all status : https://stackoverflow.com/questions/3007998/on-logout-clear-activity-history-stack-preventing-back-button-from-opening-l
+
         btnFavList = profileView.findViewById(R.id.btnFavList);
         btnFavList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,11 +74,4 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    @Override
-    public void onPrepareOptionsMenu(@NonNull Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        MenuItem menuSearch = menu.findItem(R.id.action_search);
-        menuSearch.setVisible(false);
-
-    }
 }
