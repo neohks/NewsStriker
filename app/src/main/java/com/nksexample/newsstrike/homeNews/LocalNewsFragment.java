@@ -43,8 +43,6 @@ public class LocalNewsFragment extends Fragment implements SwipeRefreshLayout.On
     private List<ArticleModel> articles = new ArrayList<>();
     private ArrayList<FavModel> favs = new ArrayList<>();
 
-
-    private RecyclerView.LayoutManager layoutManager;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     public LocalNewsFragment() {}
@@ -73,7 +71,7 @@ public class LocalNewsFragment extends Fragment implements SwipeRefreshLayout.On
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
         rvLocalNews = viewLocal.findViewById(R.id.rvLocalNews);
-        layoutManager = new LinearLayoutManager(getContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvLocalNews.setLayoutManager(layoutManager);
         rvLocalNews.setItemAnimator(new DefaultItemAnimator());
         rvLocalNews.setNestedScrollingEnabled(false);
@@ -97,28 +95,6 @@ public class LocalNewsFragment extends Fragment implements SwipeRefreshLayout.On
 
     }
 
-    @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()){
-            case 101:
-                //Save to DB
-                FavModel fav = rViewAdapter.getSpecificNews(favs.size());
-                MainActivity.databaseHelper.insertONEFavItem(fav);
-                displaySnackbarMsh("Inserted to FavList!");
-                break;
-            default:
-                break;
-        }
-
-        return super.onContextItemSelected(item);
-    }
-
-    private void displaySnackbarMsh(String msg){
-
-        Snackbar.make(getView(), msg, Snackbar.LENGTH_SHORT).show();
-
-    }
 
     @Override
     public void onRefresh() {

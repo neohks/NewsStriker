@@ -23,6 +23,10 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.snackbar.Snackbar;
+import com.nksexample.newsstrike.model.FavModel;
+
+import java.util.List;
 
 public class NewsDetailActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener {
 
@@ -34,6 +38,9 @@ public class NewsDetailActivity extends AppCompatActivity implements AppBarLayou
     private AppBarLayout appBarLayout;
     private Toolbar toolbar;
     private String gUrl, gImg, gTitle, gDate, gSource, gAuthor;
+
+    private FavModel fav;
+    private List<FavModel> favList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +75,9 @@ public class NewsDetailActivity extends AppCompatActivity implements AppBarLayou
         gDate = intent.getStringExtra("date");
         gSource = intent.getStringExtra("source");
         gAuthor = intent.getStringExtra("author");
+
+        favList = MainActivity.databaseHelper.listALLFavItems();
+        fav = new FavModel(favList.size(), gSource, gTitle, gUrl);
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.error(Utils.getRandomDrawbleColor());
@@ -153,29 +163,49 @@ public class NewsDetailActivity extends AppCompatActivity implements AppBarLayou
 
         int id = item.getItemId();
 
-        if (id == R.id.view_web){
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(gUrl));
-            startActivity(i);
-            return true;
-        }
+        switch(item.getItemId()){
+            case R.id.view_web:
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(gUrl));
+                startActivity(i);
+                return true;
+            case R.id.share:
+                shareToOthers();
+                break;
+            case R.id.favourite:
+                //Save to DB
+                MainActivity.databaseHelper.insertONEFavItem(fav);
+                displaySnackbarMsh("Inserted to FavList!");
+                break;
+            default:
+                break;
 
-        else if (id == R.id.share){
-            try{
-
-                Intent i = new Intent(Intent.ACTION_SEND);
-                i.setType("text/plan");
-                i.putExtra(Intent.EXTRA_SUBJECT, gSource);
-                String body = gTitle + "\n" + gUrl + "\n" + "Share from the News App" + "\n";
-                i.putExtra(Intent.EXTRA_TEXT, body);
-                startActivity(Intent.createChooser(i, "Share with :"));
-
-            }catch (Exception e){
-                Toast.makeText(this, "Hmm.. Sorry, \nCannot be share", Toast.LENGTH_SHORT).show();
-            }
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void displaySnackbarMsh(String msg){
+
+        Snackbar.make(getCurrentFocus(), msg, Snackbar.LENGTH_SHORT).show();
+
+    }
+
+    void shareToOthers() {
+
+        try{
+
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType("text/plan");
+            i.putExtra(Intent.EXTRA_SUBJECT, gSource);
+            String body = gTitle + "\n" + gUrl + "\n" + "Share from the News App" + "\n";
+            i.putExtra(Intent.EXTRA_TEXT, body);
+            startActivity(Intent.createChooser(i, "Share with :"));
+
+        }catch (Exception e){
+            Toast.makeText(this, "Hmm.. Sorry, \nCannot be share", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 }

@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -15,8 +16,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.bumptech.glide.Glide;
@@ -27,6 +30,8 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.google.android.material.snackbar.Snackbar;
+import com.nksexample.newsstrike.MainActivity;
 import com.nksexample.newsstrike.R;
 import com.nksexample.newsstrike.Utils;
 import com.nksexample.newsstrike.model.ArticleModel;
@@ -105,16 +110,13 @@ public class RViewAdapter extends RecyclerView.Adapter<RViewAdapter.MyViewHolder
         void onItemClick(View view, int position);
     }
 
-    public FavModel getSpecificNews (int count) {
-        return newholder.getSpecificNews(count);
-    }
-
-
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
 
         TextView title, desc, author, published_ad, source, time;
         ImageView imageView;
         private FrameLayout newsItem;
+        private CardView cardViewNews;
+
         OnItemClickListener onItemClickListener;
 
         public MyViewHolder(View itemView, OnItemClickListener onItemClickListener) {
@@ -122,6 +124,7 @@ public class RViewAdapter extends RecyclerView.Adapter<RViewAdapter.MyViewHolder
             super(itemView);
 
             itemView.setOnClickListener(this);
+            itemView.setOnCreateContextMenuListener(this);
             title = itemView.findViewById(R.id.tvNewsTitle);
             desc = itemView.findViewById(R.id.tvNewsDesc);
             author = itemView.findViewById(R.id.tvAuthorName);
@@ -130,7 +133,6 @@ public class RViewAdapter extends RecyclerView.Adapter<RViewAdapter.MyViewHolder
             time = itemView.findViewById(R.id.tvNewsTime);
             imageView = itemView.findViewById(R.id.ivNewsImage);
             newsItem = itemView.findViewById(R.id.newsItem);
-            newsItem.setOnCreateContextMenuListener(this);
 
             this.onItemClickListener = onItemClickListener;
 
@@ -145,23 +147,36 @@ public class RViewAdapter extends RecyclerView.Adapter<RViewAdapter.MyViewHolder
         @Override
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
 
-            contextMenu.add(this.getAdapterPosition(), 101,0,"Favourite");
+            MenuItem m = contextMenu.add(this.getAdapterPosition(), 101,0,"Favourite");
+
+            // Get the position and save that selected item : https://stackoverflow.com/a/33179957
+            m.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+
+                    ArticleModel artModel = articles.get(getAdapterPosition());
+
+                    int favCount =  MainActivity.databaseHelper.listALLFavItems().size();
+
+                    // TODO Possible add a check where no duplication occur
+
+                    int lastID = MainActivity.databaseHelper.listALLFavItems().get(favCount-1).getFavID();
+                    lastID++; // +1 of the last item ID, to avoid duplication for now
+                    FavModel favModel = new FavModel(lastID, artModel.getSource().getName(), artModel.getTitle(),artModel.getUrl());
+
+                    boolean check = MainActivity.databaseHelper.insertONEFavItem(favModel);
+                    if (check)
+                        Snackbar.make(view, "Added to Favourite!", Snackbar.LENGTH_SHORT).show();
+
+                    return false;
+                }
+            });
 
         }
-
-        public FavModel getSpecificNews(int count) {
-
-            ArticleModel artModel = articles.get(getAdapterPosition());
-
-            FavModel favModel = new FavModel(count, artModel.getSource().getName(), artModel.getUrl());
-
-            return favModel;
-
-        }
-
     }
-
-
-
-
 }
+
+
+
+
+

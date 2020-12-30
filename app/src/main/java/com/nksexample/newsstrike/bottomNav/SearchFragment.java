@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,21 +17,42 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.nksexample.newsstrike.MainActivity;
+import com.nksexample.newsstrike.NewsDetailActivity;
 import com.nksexample.newsstrike.R;
+import com.nksexample.newsstrike.Utils;
 import com.nksexample.newsstrike.adapters.RVSearchAdapter;
 import com.nksexample.newsstrike.SearchQueryActivity;
+import com.nksexample.newsstrike.adapters.RViewAdapter;
+import com.nksexample.newsstrike.api.APIClient;
+import com.nksexample.newsstrike.api.APIInterface;
+import com.nksexample.newsstrike.model.ArticleModel;
+import com.nksexample.newsstrike.model.FavModel;
+import com.nksexample.newsstrike.model.NewsModel;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.nksexample.newsstrike.MainActivity.API_KEY;
 
 public class SearchFragment extends Fragment {
 
-    private RecyclerView rvTopics;
-    private RVSearchAdapter rvAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView rvSuggestions;
+    private RViewAdapter rViewAdapter;
 
     ArrayList<SearchItem> searchItemArrayList;
+
+    private List<ArticleModel> articles = new ArrayList<>();
+    private ArrayList<FavModel> favs = new ArrayList<>();
+
 
     public SearchFragment() {    }
 
@@ -48,19 +70,26 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Load from DB
+        favs = MainActivity.databaseHelper.listALLFavItems();
+
         // Initialize the layout for this fragment
-        View searchView = inflater.inflate(R.layout.fragment_search, container, false);
+        View viewSearch = inflater.inflate(R.layout.fragment_search, container, false);
 
-
-
-        //Create a list
+        // Create a list of topics
         buildTopicList();
-        buildRecyclerView(searchView);
+        buildRecyclerView(viewSearch);
 
+        rvSuggestions = viewSearch.findViewById(R.id.rvSuggestions);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        rvSuggestions.setLayoutManager(layoutManager);
+        rvSuggestions.setItemAnimator(new DefaultItemAnimator());
+        rvSuggestions.setNestedScrollingEnabled(false);
 
+        //Load Suggestion
+        loadJSON();
 
-
-        return searchView;
+        return viewSearch;
     }
 
 
@@ -76,10 +105,10 @@ public class SearchFragment extends Fragment {
 
     void buildRecyclerView(View searchView) {
 
-        rvTopics = searchView.findViewById(R.id.rvTopics);
+        RecyclerView rvTopics = searchView.findViewById(R.id.rvTopics);
         rvTopics.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        rvAdapter = new RVSearchAdapter(searchItemArrayList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        RVSearchAdapter rvAdapter = new RVSearchAdapter(searchItemArrayList);
 
         rvTopics.setLayoutManager(layoutManager);
         rvTopics.setAdapter(rvAdapter);
@@ -130,6 +159,99 @@ public class SearchFragment extends Fragment {
             }
         });
 
+
+    }
+
+    public void loadJSON(){
+
+        APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
+
+        String language = Utils.getLanguage();
+
+        Call<NewsModel> call;
+
+        //For now use Random to decide the Suggestion
+        final String[] keywords = {"trend", "covid", "malaysia", "bitcoin", "health"};
+        Random rand = new Random();
+        String keyword = keywords[rand.nextInt(keywords.length)];
+
+        call = apiInterface.getNewsSearch(keyword, language, "publishedAt", API_KEY);
+
+        call.enqueue(new Callback<NewsModel>() {
+            @Override
+            public void onResponse(Call<NewsModel> call, Response<NewsModel> response) {
+
+                if (response.isSuccessful() && response.body().getArticle() != null){
+
+                    if (!articles.isEmpty()){
+                        articles.clear();
+                    }
+
+                    articles = response.body().getArticle();
+                    rViewAdapter = new RViewAdapter(articles, getActivity());
+                    rvSuggestions.setAdapter(rViewAdapter);
+                    rViewAdapter.notifyDataSetChanged();
+
+                    initRVAdapterListener();
+
+                }
+                else {
+
+                    String errorCode;
+                    switch (response.code()){
+                        case 404:
+                            errorCode = "404 not found";
+                            break;
+                        case 500:
+                            errorCode = "500 server broken";
+                            break;
+                        default:
+                            errorCode = "Check network connectivity";
+                            break;
+
+                    }
+
+                    // Possible make a proper one
+                    Toast.makeText(getActivity(), errorCode, Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NewsModel> call, Throwable t) {
+
+                Toast.makeText(getActivity(), "Nework Error!", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+    }
+
+    private void initRVAdapterListener(){
+
+        rViewAdapter.setOnItemClickListener(new RViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+
+                ImageView imageView = view.findViewById(R.id.ivNewsImage);
+                Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+
+                ArticleModel articleModel = articles.get(position);
+                intent.putExtra("authorname",  articleModel.getAuthor());
+                intent.putExtra("source",  articleModel.getSource().getName());
+                intent.putExtra("title",  articleModel.getTitle());
+                intent.putExtra("date",  articleModel.getPublishedAt());
+                intent.putExtra("img",  articleModel.getUrlToImage());
+                intent.putExtra("url",  articleModel.getUrl());
+
+                //Wanted to do Fragment to Activity with transition but not yet find how
+//                Pair<View, String> pair = Pair.create((View)imageView, ViewCompat.getTransitionName(imageView));
+//                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, pair);
+
+                startActivity(intent);
+
+            }
+        });
 
     }
 

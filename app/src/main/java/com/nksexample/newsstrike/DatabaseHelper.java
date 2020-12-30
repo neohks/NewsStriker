@@ -9,16 +9,14 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.nksexample.newsstrike.model.ArticleModel;
 import com.nksexample.newsstrike.model.FavModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     //Database version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     //Database name
     private static final String DATABASE_NAME = "newsapp.db";
@@ -28,7 +26,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //Table Fields
     private static final String COLUMN_ID = "id";
-    private static final String COLUMN_NAME = "webname";
+    private static final String COLUMN_SOURCE = "sourcename";
+    private static final String COLUMN_NAME = "articlename";
     private static final String COLUMN_URL = "url";
 
     SQLiteDatabase database;
@@ -47,8 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-
-        sqLiteDatabase.execSQL("CREATE TABLE "+ TABLE_FAV + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, " + COLUMN_URL + " TEXT)" );
+        sqLiteDatabase.execSQL("CREATE TABLE "+ TABLE_FAV + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_SOURCE + " TEXT, " + COLUMN_NAME + " TEXT, " + COLUMN_URL + " TEXT)" );
 
     }
 
@@ -76,9 +74,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             {
                 int favID = cursor.getInt(0);
                 String publisherName = cursor.getString(1);
-                String url = cursor.getString(2);
+                String articlename = cursor.getString(2);
+                String url = cursor.getString(3);
 
-                FavModel newFav = new FavModel(favID, publisherName, url);
+                FavModel newFav = new FavModel(favID, publisherName, articlename, url);
                 favModelList.add(newFav);
 
             }
@@ -87,7 +86,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         else
         {
             // fail dont add anything to list
-            Log.d("FAIL", "Please check showALLData method in DBHelper");
+            Log.d("DB FAIL", "Please check showALLData method in DBHelper!!!!!!!!!!!!!!!!!!!");
         }
 
         cursor.close();
@@ -101,7 +100,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase dbs = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_ID, favModel.getFavID());
-        contentValues.put(COLUMN_NAME, favModel.getPublisherName());
+        contentValues.put(COLUMN_SOURCE, favModel.getPublisherName());
+        contentValues.put(COLUMN_NAME, favModel.getArticleName());
         contentValues.put(COLUMN_URL, favModel.getUrl());
 
         long insert = dbs.insert(TABLE_FAV, null, contentValues);

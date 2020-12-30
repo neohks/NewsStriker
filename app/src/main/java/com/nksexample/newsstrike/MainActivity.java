@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean isLoggedIn = false;
     private boolean isSearchPage = false;
     TextView tvMainTest;
-    Switch sLoginOut;
 
     private BottomNavigationView bottomNavigationView;
 
@@ -127,50 +126,5 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     };
-
-    //Menu
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menudots, menu);
-//
-//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//        final SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-//
-//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-//        searchView.setQueryHint("Search Latest News...");
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                if (query.length() > 2){
-//
-//                    Intent intent = new Intent(MainActivity.this, SearchQueryActivity.class); //Showhow show the back buttom
-//                    intent.putExtra("query", query);
-//                    startActivity(intent);
-//                }
-//                else {
-//                    Toast.makeText(MainActivity.this, "Type more than two letters!", Toast.LENGTH_SHORT).show();
-//                }
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//
-//                return false;
-//            }
-//        });
-//
-////        searchMenuItem.getIcon().setVisible(false, false);
-//
-//        return true;
-//    }
-
-
-
-
-
-
-
-
 
 }

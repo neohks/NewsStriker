@@ -27,9 +27,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.nksexample.newsstrike.MainActivity.API_KEY;
+
 public class SearchQueryActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
-    public static final String API_KEY = "b24fd2dbf4fa4d1c9364b00fe1cfeb82";
     private RecyclerView rvLocalNews;
     private RViewAdapter rViewAdapter;
     private List<ArticleModel> articles = new ArrayList<>();

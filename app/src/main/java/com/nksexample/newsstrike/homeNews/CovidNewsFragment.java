@@ -36,10 +36,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.nksexample.newsstrike.MainActivity.API_KEY;
+
 
 public class CovidNewsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    public static final String API_KEY = "b24fd2dbf4fa4d1c9364b00fe1cfeb82";
     private RecyclerView rvLocalNews;
     private RViewAdapter rViewAdapter;
     private List<ArticleModel> articles = new ArrayList<>();
@@ -91,29 +92,6 @@ public class CovidNewsFragment extends Fragment implements SwipeRefreshLayout.On
             return;
         if (swipeRefreshLayout != null)
             loadAllNews();
-
-    }
-
-    @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()){
-            case 101:
-                //Save to DB
-                FavModel fav = rViewAdapter.getSpecificNews(favs.size());
-                MainActivity.databaseHelper.insertONEFavItem(fav);
-                displaySnackbarMsh("Inserted to FavList!");
-                break;
-            default:
-                break;
-        }
-
-        return super.onContextItemSelected(item);
-    }
-
-    private void displaySnackbarMsh(String msg){
-
-        Snackbar.make(getView(), msg, Snackbar.LENGTH_SHORT).show();
 
     }
 
