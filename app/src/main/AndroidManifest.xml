@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NewsStrike">
+
         <activity
             android:name=".WebViewActivity"
             android:parentActivityName=".FavListActivity">
@@ -22,13 +23,11 @@
         <activity
             android:name=".FavListActivity"
             android:label="Favourite Lists">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".FavListActivity" />
         </activity>
         <activity android:name=".SearchQueryActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -36,11 +35,9 @@
             <meta-data
                 android:name="android.app.default_searchable"
                 android:value=".SearchQueryActivity" />
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".SearchQueryActivity" />
-
         </activity>
         <activity
             android:name=".NewsDetailActivity"
@@ -90,12 +87,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity
-            android:name=".MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
             <meta-data
@@ -105,6 +101,16 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
+        <activity
+            android:theme="@style/SplashScreen"
+            android:name=".SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>
