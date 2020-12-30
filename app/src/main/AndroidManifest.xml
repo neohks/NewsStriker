@@ -12,10 +12,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NewsStrike">
-
         <activity
-            android:name=".SearchQueryActivity">
+            android:name=".WebViewActivity"
+            android:parentActivityName=".FavListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".FavListActivity" />
+        </activity>
+        <activity
+            android:name=".FavListActivity"
+            android:label="Favourite Lists">
 
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".FavListActivity" />
+        </activity>
+        <activity android:name=".SearchQueryActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -25,9 +37,9 @@
                 android:name="android.app.default_searchable"
                 android:value=".SearchQueryActivity" />
 
-<!--            <meta-data-->
-<!--                android:name="android.app.searchable"-->
-<!--                android:resource="@xml/searchable" />-->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SearchQueryActivity" />
 
         </activity>
         <activity
@@ -53,13 +65,10 @@
         <activity
             android:name=".LoginActivity"
             android:label="Login"
-            android:parentActivityName=".MainActivity"
             android:theme="@style/noAnimTheme">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+
         </activity>
         <activity
             android:name=".SettingsActivity"
@@ -81,12 +90,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.default_searchable"
                 android:value=".SearchQueryActivity" />

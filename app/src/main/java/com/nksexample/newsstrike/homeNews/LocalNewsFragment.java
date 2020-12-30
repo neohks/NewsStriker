@@ -3,6 +3,7 @@ package com.nksexample.newsstrike.homeNews;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,19 +11,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+import com.nksexample.newsstrike.DatabaseHelper;
+import com.nksexample.newsstrike.MainActivity;
 import com.nksexample.newsstrike.NewsDetailActivity;
-import com.nksexample.newsstrike.Utils;
 import com.nksexample.newsstrike.api.APIClient;
 import com.nksexample.newsstrike.api.APIInterface;
 import com.nksexample.newsstrike.model.ArticleModel;
+import com.nksexample.newsstrike.model.FavModel;
 import com.nksexample.newsstrike.model.NewsModel;
 import com.nksexample.newsstrike.R;
-import com.nksexample.newsstrike.RViewAdapter;
+import com.nksexample.newsstrike.adapters.RViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,17 +36,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LocalNewsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class LocalNewsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    public static final String API_KEY = "b24fd2dbf4fa4d1c9364b00fe1cfeb82";
     private RecyclerView rvLocalNews;
     private RViewAdapter rViewAdapter;
     private List<ArticleModel> articles = new ArrayList<>();
+    private ArrayList<FavModel> favs = new ArrayList<>();
+
 
     private RecyclerView.LayoutManager layoutManager;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -61,6 +62,8 @@ public class LocalNewsFragment extends Fragment implements SwipeRefreshLayout.On
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        favs = MainActivity.databaseHelper.listALLFavItems();
 
         //Initialize view
         View viewLocal = inflater.inflate(R.layout.fragment_local_news, container, false);
@@ -95,6 +98,29 @@ public class LocalNewsFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case 101:
+                //Save to DB
+                FavModel fav = rViewAdapter.getSpecificNews(favs.size());
+                MainActivity.databaseHelper.insertONEFavItem(fav);
+                displaySnackbarMsh("Inserted to FavList!");
+                break;
+            default:
+                break;
+        }
+
+        return super.onContextItemSelected(item);
+    }
+
+    private void displaySnackbarMsh(String msg){
+
+        Snackbar.make(getView(), msg, Snackbar.LENGTH_SHORT).show();
+
+    }
+
+    @Override
     public void onRefresh() {
 
         loadJSON();
@@ -123,7 +149,7 @@ public class LocalNewsFragment extends Fragment implements SwipeRefreshLayout.On
 
         Call<NewsModel> call;
 
-        call = apiInterface.getLocalNews("my", API_KEY);
+        call = apiInterface.getLocalNews("my", MainActivity.API_KEY);
 
         call.enqueue(new Callback<NewsModel>() {
             @Override

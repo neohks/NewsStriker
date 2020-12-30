@@ -1,5 +1,6 @@
 package com.nksexample.newsstrike.bottomNav;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,29 +15,26 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.tabs.TabLayout;
+import com.nksexample.newsstrike.FeedbackActivity;
+import com.nksexample.newsstrike.LoginActivity;
+import com.nksexample.newsstrike.MainActivity;
+import com.nksexample.newsstrike.SettingsActivity;
 import com.nksexample.newsstrike.homeNews.CovidNewsFragment;
 import com.nksexample.newsstrike.homeNews.LocalNewsFragment;
 import com.nksexample.newsstrike.R;
 import com.nksexample.newsstrike.homeNews.TrendNewsFragment;
-import com.nksexample.newsstrike.VPagerAdapter;
+import com.nksexample.newsstrike.adapters.VPagerAdapter;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link NewsHomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class NewsHomeFragment extends Fragment {
 
     TabLayout tabLayout;
     ViewPager viewPager;
 
 
-    public NewsHomeFragment() {
-        // Required empty public constructor
-    }
+    public NewsHomeFragment() {   }
 
 
-    // TODO: Rename and change types and number of parameters
     public static NewsHomeFragment newInstance(String param1, String param2) {
         NewsHomeFragment fragment = new NewsHomeFragment();
 //        Bundle args = new Bundle();
@@ -49,6 +47,7 @@ public class NewsHomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
     }
 
@@ -70,6 +69,45 @@ public class NewsHomeFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menudots, menu);
+        MenuItem menuSearch = menu.findItem(R.id.action_search);
+        menuSearch.setVisible(false);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intent = null;
+        int id = item.getItemId();
+        String username = "johndoe";
+
+        switch(id){
+            case R.id.menuFeedback:
+                intent = new Intent(getActivity(), FeedbackActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.menuLogout:
+                intent = new Intent(getActivity(), LoginActivity.class);
+                intent.putExtra("username", username);
+                startActivity(intent);
+                break;
+            case R.id.menuLogin:
+                intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.menuSettings:
+                intent = new Intent(getActivity(), SettingsActivity.class);
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
+
+        return true;
+    }
 
     //Pager
     private void prepareViewPager(ViewPager vp){

@@ -5,17 +5,54 @@
     android:id="@+id/constraintLProfile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".bottomNav.ProfileFragment">
+    tools:context=".ProfileFragment">
 
-    <TextView
-        android:id="@+id/textView3"
+
+    <ImageView
+        android:id="@+id/ivUserAvatar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Profilee"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="39dp"
+        app:layout_constraintBottom_toTopOf="@+id/tvUserName"
+        app:layout_constraintEnd_toEndOf="@+id/tvUserName"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/tvUserName"
+        android:layout_width="159dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="136dp"
+        android:gravity="center"
+        android:text="John Doe"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btnFavList"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivUserAvatar" />
+
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="74dp"
+        android:text="Log Out"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/btnFavList" />
 
-
+    <Button
+        android:id="@+id/btnFavList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="289dp"
+        android:text="Favourite List"
+        app:layout_constraintBottom_toTopOf="@+id/btnLogout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvUserName" />
 </androidx.constraintlayout.widget.ConstraintLayout>

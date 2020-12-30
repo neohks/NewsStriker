@@ -1,4 +1,4 @@
-package com.nksexample.newsstrike;
+package com.nksexample.newsstrike.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

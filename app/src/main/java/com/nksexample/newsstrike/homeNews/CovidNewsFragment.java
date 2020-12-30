@@ -3,6 +3,7 @@ package com.nksexample.newsstrike.homeNews;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,18 +11,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+import com.nksexample.newsstrike.MainActivity;
 import com.nksexample.newsstrike.NewsDetailActivity;
 import com.nksexample.newsstrike.R;
-import com.nksexample.newsstrike.RViewAdapter;
+import com.nksexample.newsstrike.adapters.RViewAdapter;
 import com.nksexample.newsstrike.Utils;
 import com.nksexample.newsstrike.api.APIClient;
 import com.nksexample.newsstrike.api.APIInterface;
 import com.nksexample.newsstrike.model.ArticleModel;
+import com.nksexample.newsstrike.model.FavModel;
 import com.nksexample.newsstrike.model.NewsModel;
 
 import java.util.ArrayList;
@@ -38,6 +43,7 @@ public class CovidNewsFragment extends Fragment implements SwipeRefreshLayout.On
     private RecyclerView rvLocalNews;
     private RViewAdapter rViewAdapter;
     private List<ArticleModel> articles = new ArrayList<>();
+    private ArrayList<FavModel> favs = new ArrayList<>();
 
     private RecyclerView.LayoutManager layoutManager;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -55,8 +61,9 @@ public class CovidNewsFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        favs = MainActivity.databaseHelper.listALLFavItems();
         // Inflate the layout for this fragment
         View covidView = inflater.inflate(R.layout.fragment_covid_news, container, false);
 
@@ -84,6 +91,29 @@ public class CovidNewsFragment extends Fragment implements SwipeRefreshLayout.On
             return;
         if (swipeRefreshLayout != null)
             loadAllNews();
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case 101:
+                //Save to DB
+                FavModel fav = rViewAdapter.getSpecificNews(favs.size());
+                MainActivity.databaseHelper.insertONEFavItem(fav);
+                displaySnackbarMsh("Inserted to FavList!");
+                break;
+            default:
+                break;
+        }
+
+        return super.onContextItemSelected(item);
+    }
+
+    private void displaySnackbarMsh(String msg){
+
+        Snackbar.make(getView(), msg, Snackbar.LENGTH_SHORT).show();
 
     }
 
@@ -116,7 +146,7 @@ public class CovidNewsFragment extends Fragment implements SwipeRefreshLayout.On
 
         Call<NewsModel> call;
 
-        call = apiInterface.getNews("covid", language, API_KEY);
+        call = apiInterface.getNewsSearch("covid", language,"publishedAt", API_KEY);
 
         call.enqueue(new Callback<NewsModel>() {
             @Override

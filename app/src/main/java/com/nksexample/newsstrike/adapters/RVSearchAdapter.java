@@ -1,6 +1,5 @@
-package com.nksexample.newsstrike;
+package com.nksexample.newsstrike.adapters;
 
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +9,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.nksexample.newsstrike.R;
 import com.nksexample.newsstrike.bottomNav.SearchItem;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RVSearchAdapter extends RecyclerView.Adapter<RVSearchAdapter.SearchViewHolder> {
 

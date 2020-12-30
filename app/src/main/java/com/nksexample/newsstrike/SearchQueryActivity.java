@@ -6,12 +6,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.nksexample.newsstrike.adapters.RViewAdapter;
 import com.nksexample.newsstrike.api.APIClient;
 import com.nksexample.newsstrike.api.APIInterface;
 import com.nksexample.newsstrike.model.ArticleModel;
@@ -42,6 +45,7 @@ public class SearchQueryActivity extends AppCompatActivity implements SwipeRefre
         setContentView(R.layout.activity_search_query);
 
         keyword = getIntent().getStringExtra("query");
+
         setTitle(keyword.toUpperCase());
 
         swipeRefreshLayout = findViewById(R.id.srLayout);
@@ -85,7 +89,7 @@ public class SearchQueryActivity extends AppCompatActivity implements SwipeRefre
 
         Call<NewsModel> call;
 
-        call = apiInterface.getNewsSearch(keyword, language,"popularity", API_KEY);
+        call = apiInterface.getNewsSearch(keyword, language,"relevancy", API_KEY);
 
         call.enqueue(new Callback<NewsModel>() {
             @Override
@@ -98,6 +102,20 @@ public class SearchQueryActivity extends AppCompatActivity implements SwipeRefre
                     }
 
                     articles = response.body().getArticle();
+                    if (articles.size() == 0) {
+                        MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(SearchQueryActivity.this);
+                        materialAlertDialogBuilder.setTitle("No Result");
+                        materialAlertDialogBuilder.setMessage("There is nothing to show for '" + keyword + "'.\n" + "Please try other keyword. Thank you!");
+                        materialAlertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                finish();
+                            }
+                        });
+                        materialAlertDialogBuilder.show();
+
+
+                    }
                     rViewAdapter = new RViewAdapter(articles, SearchQueryActivity.this);
                     rvLocalNews.setAdapter(rViewAdapter);
                     rViewAdapter.notifyDataSetChanged();

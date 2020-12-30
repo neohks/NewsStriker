@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,16 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.nksexample.newsstrike.MainActivity;
 import com.nksexample.newsstrike.R;
-import com.nksexample.newsstrike.RVSearchAdapter;
+import com.nksexample.newsstrike.adapters.RVSearchAdapter;
 import com.nksexample.newsstrike.SearchQueryActivity;
 
 import java.util.ArrayList;
@@ -54,9 +51,14 @@ public class SearchFragment extends Fragment {
         // Initialize the layout for this fragment
         View searchView = inflater.inflate(R.layout.fragment_search, container, false);
 
+
+
         //Create a list
         buildTopicList();
         buildRecyclerView(searchView);
+
+
+
 
         return searchView;
     }
@@ -102,17 +104,17 @@ public class SearchFragment extends Fragment {
         inflater.inflate(R.menu.menudots, menu);
 
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-        final SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setQueryHint("Search News...");
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-        searchView.setQueryHint("Search Latest News...");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (query.length() > 2){
 
                     Intent intent = new Intent(getActivity(), SearchQueryActivity.class); //Showhow show the back buttom
-                    intent.putExtra("query", query);
+                    intent.putExtra("query", query.toLowerCase());
                     startActivity(intent);
                 }
                 else {

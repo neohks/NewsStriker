@@ -13,6 +13,7 @@ import java.util.Random;
 
 public class Utils {
 
+    //When image is null (From JSON), put random colour onto the ImageView that dispay the picture for each card view
     public static ColorDrawable[] vibrantLightColorList =
             {
                     new ColorDrawable(Color.parseColor("#ffeead")),
@@ -60,14 +61,14 @@ public class Utils {
     }
 
     public static String getCountry(){
-        Locale locale = Locale.getDefault();
-        String country = String.valueOf(locale.getCountry());
+        Locale locale = new Locale("en", "MY"); // Shouldve have ask for location from user to know which country instead of hard code!
+        String country = locale.getCountry();
         return country.toLowerCase();
     }
 
     public static String getLanguage(){
-        Locale locale = Locale.getDefault();
-        String lang = String.valueOf(locale.getLanguage());
+        Locale locale = new Locale("en", "MY");
+        String lang = locale.getLanguage();
         return lang.toLowerCase();
     }
 

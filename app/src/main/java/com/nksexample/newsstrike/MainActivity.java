@@ -1,15 +1,11 @@
 package com.nksexample.newsstrike;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
-import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
 import android.app.SearchManager;
@@ -18,31 +14,23 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.SearchView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 import com.nksexample.newsstrike.bottomNav.NewsHomeFragment;
-import com.nksexample.newsstrike.bottomNav.ProfileFragment;
 import com.nksexample.newsstrike.bottomNav.SearchFragment;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private int INTERNET_PERMISSION_CODE = 111;
     public static final String API_KEY = "b24fd2dbf4fa4d1c9364b00fe1cfeb82";
-    
+
+    public static DatabaseHelper databaseHelper;
     
     public boolean isLoggedIn = false;
     private boolean isSearchPage = false;
@@ -52,28 +40,20 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        tvMainTest = findViewById(R.id.tvMainTest);
-//        sLoginOut = findViewById(R.id.sLoginOut);
-//
-//        sLoginOut.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-////                Toast.makeText(MainActivity.this, String.valueOf(isChecked), Toast.LENGTH_SHORT).show();
-//                isLoggedIn = isChecked;
-//                updateUI();
-//            }
-//        });
-//        updateUI();
-
         // Check Internet Permission
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.INTERNET) == PackageManager.PERMISSION_DENIED)
             requestInternetPermission();
+
+        //Database Initialize
+        databaseHelper = new DatabaseHelper(MainActivity.this);
+        databaseHelper.listALLFavItems();
+
+
         //Setup BottomNavigation
         bottomNavigationView = findViewById(R.id.bottomNav);
         bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavItemSelectListener);
@@ -149,80 +129,43 @@ public class MainActivity extends AppCompatActivity {
     };
 
     //Menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menudots, menu);
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menudots, menu);
+//
+//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        final SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+//
+//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+//        searchView.setQueryHint("Search Latest News...");
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                if (query.length() > 2){
+//
+//                    Intent intent = new Intent(MainActivity.this, SearchQueryActivity.class); //Showhow show the back buttom
+//                    intent.putExtra("query", query);
+//                    startActivity(intent);
+//                }
+//                else {
+//                    Toast.makeText(MainActivity.this, "Type more than two letters!", Toast.LENGTH_SHORT).show();
+//                }
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//
+//                return false;
+//            }
+//        });
+//
+////        searchMenuItem.getIcon().setVisible(false, false);
+//
+//        return true;
+//    }
 
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        final SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
 
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setQueryHint("Search Latest News...");
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                if (query.length() > 2){
-
-                    Intent intent = new Intent(MainActivity.this, SearchQueryActivity.class); //Showhow show the back buttom
-                    intent.putExtra("query", query);
-                    startActivity(intent);
-                }
-                else {
-                    Toast.makeText(MainActivity.this, "Type more than two letters!", Toast.LENGTH_SHORT).show();
-                }
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-                return false;
-            }
-        });
-
-//        searchMenuItem.getIcon().setVisible(false, false);
-
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.removeItem(isLoggedIn ? R.id.menuLogin : R.id.menuLogout);
-        menu.removeItem(isSearchPage ? 0 :  R.id.action_search);
-
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Intent intent = null;
-        int id = item.getItemId();
-        String username = "johndoe";
-
-        switch(id){
-            case R.id.menuFeedback:
-                intent = new Intent(MainActivity.this, FeedbackActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.menuLogout:
-                intent = new Intent(MainActivity.this, LoginActivity.class);
-                intent.putExtra("username", username);
-                startActivity(intent);
-                break;
-            case R.id.menuLogin:
-                intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.menuSettings:
-                intent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent);
-                break;
-            default:
-                break;
-        }
-
-        return true;
-    }
 
 
 

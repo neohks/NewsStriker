@@ -1,16 +1,16 @@
-package com.nksexample.newsstrike;
+package com.nksexample.newsstrike.adapters;
 
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,13 +27,17 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.nksexample.newsstrike.R;
+import com.nksexample.newsstrike.Utils;
 import com.nksexample.newsstrike.model.ArticleModel;
+import com.nksexample.newsstrike.model.FavModel;
 
-public class RViewAdapter extends RecyclerView.Adapter<RViewAdapter.MyViewHolder>{
+public class RViewAdapter extends RecyclerView.Adapter<RViewAdapter.MyViewHolder> {
 
     private List<ArticleModel> articles;
     private Context context;
     private OnItemClickListener onItemClickListener;
+    private MyViewHolder newholder;
 
     public RViewAdapter(List<ArticleModel> articles, Context context) {
         this.articles = articles;
@@ -49,7 +53,7 @@ public class RViewAdapter extends RecyclerView.Adapter<RViewAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holders, int position) {
-        final MyViewHolder newholder = holders;
+        newholder = holders;
         ArticleModel model = articles.get(position);
 
         RequestOptions requestOptions = new RequestOptions();
@@ -101,12 +105,16 @@ public class RViewAdapter extends RecyclerView.Adapter<RViewAdapter.MyViewHolder
         void onItemClick(View view, int position);
     }
 
+    public FavModel getSpecificNews (int count) {
+        return newholder.getSpecificNews(count);
+    }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
 
         TextView title, desc, author, published_ad, source, time;
         ImageView imageView;
-        ProgressBar progressBar;
+        private FrameLayout newsItem;
         OnItemClickListener onItemClickListener;
 
         public MyViewHolder(View itemView, OnItemClickListener onItemClickListener) {
@@ -121,8 +129,11 @@ public class RViewAdapter extends RecyclerView.Adapter<RViewAdapter.MyViewHolder
             source = itemView.findViewById(R.id.tvSourceName);
             time = itemView.findViewById(R.id.tvNewsTime);
             imageView = itemView.findViewById(R.id.ivNewsImage);
+            newsItem = itemView.findViewById(R.id.newsItem);
+            newsItem.setOnCreateContextMenuListener(this);
 
             this.onItemClickListener = onItemClickListener;
+
 
         }
 
@@ -130,7 +141,27 @@ public class RViewAdapter extends RecyclerView.Adapter<RViewAdapter.MyViewHolder
         public void onClick(View v) {
             onItemClickListener.onItemClick(v, getAdapterPosition());
         }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+
+            contextMenu.add(this.getAdapterPosition(), 101,0,"Favourite");
+
+        }
+
+        public FavModel getSpecificNews(int count) {
+
+            ArticleModel artModel = articles.get(getAdapterPosition());
+
+            FavModel favModel = new FavModel(count, artModel.getSource().getName(), artModel.getUrl());
+
+            return favModel;
+
+        }
+
     }
+
+
 
 
 }
