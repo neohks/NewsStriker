@@ -157,12 +157,19 @@ public class RViewAdapter extends RecyclerView.Adapter<RViewAdapter.MyViewHolder
                     ArticleModel artModel = articles.get(getAdapterPosition());
 
                     int favCount =  MainActivity.databaseHelper.listALLFavItems().size();
+                    FavModel favModel = null;
+                    int lastID = 0;
 
                     // TODO Possible add a check where no duplication occur
+                    if (favCount != 0) {
+                        lastID = MainActivity.databaseHelper.listALLFavItems().get(favCount-1).getFavID();
+                        lastID++; // +1 of the last item ID, to avoid duplication for now
 
-                    int lastID = MainActivity.databaseHelper.listALLFavItems().get(favCount-1).getFavID();
-                    lastID++; // +1 of the last item ID, to avoid duplication for now
-                    FavModel favModel = new FavModel(lastID, artModel.getSource().getName(), artModel.getTitle(),artModel.getUrl());
+                    } else {
+                        lastID = favCount; //If its 0 then use the Count (Since it is the first Fav Item)
+                    }
+
+                    favModel = new FavModel(lastID, artModel.getSource().getName(), artModel.getTitle(),artModel.getUrl());
 
                     boolean check = MainActivity.databaseHelper.insertONEFavItem(favModel);
                     if (check)

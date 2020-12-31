@@ -69,8 +69,9 @@ public class ProfileFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menudots, menu);
-        MenuItem menuSearch = menu.findItem(R.id.action_search);
-        menuSearch.setVisible(false);
+        menu.removeItem(R.id.menuSearch);
+//        MenuItem menuSearch = menu.findItem(R.id.action_search);
+//        menuSearch.setVisible(false);
 
     }
 

@@ -121,11 +121,13 @@ public class CovidNewsFragment extends Fragment implements SwipeRefreshLayout.On
 
         APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
 
-        String language = Utils.getLanguage();
+        String language = SettingsActivity.language;
+        if (language.isEmpty())
+            language = "en";
 
         Call<NewsModel> call;
 
-        call = apiInterface.getNewsSearch("covid", SettingsActivity.language,"publishedAt", API_KEY);
+        call = apiInterface.getNewsSearch("covid", language,"publishedAt", API_KEY);
 
         call.enqueue(new Callback<NewsModel>() {
             @Override

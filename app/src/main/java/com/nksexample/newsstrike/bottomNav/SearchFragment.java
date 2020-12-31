@@ -136,7 +136,7 @@ public class SearchFragment extends Fragment {
         inflater.inflate(R.menu.menudots, menu);
 
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        SearchView searchView = (SearchView) menu.findItem(R.id.menuSearch).getActionView();
         searchView.setQueryHint("Search News...");
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));

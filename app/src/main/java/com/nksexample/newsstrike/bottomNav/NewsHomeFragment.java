@@ -16,8 +16,6 @@ import android.view.ViewGroup;
 
 import com.google.android.material.tabs.TabLayout;
 import com.nksexample.newsstrike.FeedbackActivity;
-import com.nksexample.newsstrike.LoginActivity;
-import com.nksexample.newsstrike.MainActivity;
 import com.nksexample.newsstrike.SettingsActivity;
 import com.nksexample.newsstrike.homeNews.CovidNewsFragment;
 import com.nksexample.newsstrike.homeNews.LocalNewsFragment;
@@ -73,8 +71,11 @@ public class NewsHomeFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menudots, menu);
-        MenuItem menuSearch = menu.findItem(R.id.action_search);
-        menuSearch.setVisible(false);
+        menu.removeItem(R.id.menuSearch);
+
+//        MenuItem menuSearch = menu.findItem(R.id.action_search);
+//        menuSearch.setVisible(false);
+
 
     }
 

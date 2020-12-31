@@ -30,7 +30,9 @@ import com.nksexample.newsstrike.bottomNav.SearchFragment;
 public class MainActivity extends AppCompatActivity {
 
     private int INTERNET_PERMISSION_CODE = 111;
-    public static final String API_KEY = "b24fd2dbf4fa4d1c9364b00fe1cfeb82";
+
+    // IF return 429 error, please create new acc : https://newsapi.org/
+    public static final String API_KEY = "a060a5bd3e5a49f49c7c659af0609fc1"; //Old API TOKEN : b24fd2dbf4fa4d1c9364b00fe1cfeb82
 
     // Setting's shared pref
     public static final String SHARED_PREFS = "setsharedprefs";
@@ -38,17 +40,17 @@ public class MainActivity extends AppCompatActivity {
     public static final String SHARED_COUNTRY = "country";
     public static final String SHARED_THEME = "theme";
 
+    public static boolean isFromSettingPage = false;
+
     public static DatabaseHelper databaseHelper;
-    
-    public boolean isLoggedIn = false;
-    private boolean isSearchPage = false;
-    TextView tvMainTest;
 
     private BottomNavigationView bottomNavigationView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
 
         //Load preferences
         loadData();
@@ -104,6 +106,18 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Permission Granted", Toast.LENGTH_LONG).show();
             else
                 Toast.makeText(this, "Permission Denied", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //If from setting age, reload main page
+        if (isFromSettingPage) {
+            finish();
+            startActivity(getIntent());
+            isFromSettingPage = false;
         }
     }
 

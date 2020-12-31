@@ -125,11 +125,16 @@ public class LocalNewsFragment extends Fragment implements SwipeRefreshLayout.On
 
 
         // Since in NEWSAPI dont have Chinese lang support for Top headlines, temp use HK : https://newsapi.org/docs/endpoints/top-headlines
-        String country;
-        if(SettingsActivity.language.equals("zh"))
-            country = "hk";
-        else
-            country = SettingsActivity.country;
+         //Default is MY TODO Make a dialog ask user their pref
+        String country = "my";
+        if (!SettingsActivity.language.equals("")) {
+
+            if(SettingsActivity.language.equals("zh"))
+                country = "hk";
+            else
+                country = SettingsActivity.country;
+
+        }
 
         call = apiInterface.getLocalNews(country, MainActivity.API_KEY);
 

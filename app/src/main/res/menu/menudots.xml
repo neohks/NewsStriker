@@ -15,7 +15,7 @@
 <!--        android:id="@+id/menuLogin"-->
 <!--        android:title="@string/login" />-->
     <item
-        android:id="@+id/action_search"
+        android:id="@+id/menuSearch"
         android:icon="@drawable/ic_search"
         android:orderInCategory="100"
         android:title="Search"

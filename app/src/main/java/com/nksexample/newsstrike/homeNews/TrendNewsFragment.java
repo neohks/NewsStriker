@@ -125,11 +125,13 @@ public class TrendNewsFragment extends Fragment implements SwipeRefreshLayout.On
 
         APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
 
-        String language = Utils.getLanguage();
+        String language = SettingsActivity.language;
+        if (language.isEmpty())
+            language = "en";
 
         Call<NewsModel> call;
 
-        call = apiInterface.getNewsSearch("trend", SettingsActivity.language, "publishedAt", API_KEY);
+        call = apiInterface.getNewsSearch("trend", language, "publishedAt", API_KEY);
 
         call.enqueue(new Callback<NewsModel>() {
             @Override
@@ -163,6 +165,8 @@ public class TrendNewsFragment extends Fragment implements SwipeRefreshLayout.On
                         case 500:
                             errorCode = "500 server broken";
                             break;
+                        case 429:
+                            errorCode = "Too many API requests, please wait...";
                         default:
                             errorCode = "Check network connectivity";
                             break;
