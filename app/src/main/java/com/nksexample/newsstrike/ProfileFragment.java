@@ -74,4 +74,35 @@ public class ProfileFragment extends Fragment {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intent = null;
+        int id = item.getItemId();
+        String username = "johndoe";
+
+        switch(id){
+            case R.id.menuFeedback:
+                intent = new Intent(getActivity(), FeedbackActivity.class);
+                startActivity(intent);
+                break;
+//            case R.id.menuLogout:
+//                intent = new Intent(getActivity(), LoginActivity.class);
+//                intent.putExtra("username", username);
+//                startActivity(intent);
+//                break;
+//            case R.id.menuLogin:
+//                intent = new Intent(getActivity(), LoginActivity.class);
+//                startActivity(intent);
+//                break;
+            case R.id.menuSettings:
+                intent = new Intent(getActivity(), SettingsActivity.class);
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
+
+        return true;
+    }
+
 }

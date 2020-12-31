@@ -1,19 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="clip_vertical"
     tools:context=".SettingsActivity">
 
-    <androidx.appcompat.widget.SwitchCompat
-
-        android:id="@+id/switchTheme"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="468dp"
-        android:text="Switch"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:gravity="center"
+        android:padding="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dark Theme : "
+            android:textSize="18sp" />
+
+        <androidx.appcompat.widget.SwitchCompat
+
+            android:id="@+id/switchTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvLang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Language : "
+            android:textSize="18sp"/>
+
+        <RadioGroup
+            android:id="@+id/rbgLang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/rbChinese"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="checkLanguageButton"
+                android:text="Chinese" />
+
+            <RadioButton
+                android:id="@+id/rbEng"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="English"
+                android:onClick="checkLanguageButton"
+                tools:layout_editor_absoluteX="249dp"
+                tools:layout_editor_absoluteY="244dp" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvCountry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Country : "
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/rbgCountry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/rbMalaysia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="checkCountryButton"
+                android:text="Malaysia" />
+
+            <RadioButton
+                android:id="@+id/rbUSA"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="checkCountryButton"
+                android:text="USA" />
+        </RadioGroup>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

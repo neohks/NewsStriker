@@ -15,14 +15,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.nksexample.newsstrike.FeedbackActivity;
 import com.nksexample.newsstrike.MainActivity;
 import com.nksexample.newsstrike.NewsDetailActivity;
 import com.nksexample.newsstrike.R;
+import com.nksexample.newsstrike.SettingsActivity;
 import com.nksexample.newsstrike.Utils;
 import com.nksexample.newsstrike.adapters.RVSearchAdapter;
 import com.nksexample.newsstrike.SearchQueryActivity;
@@ -162,6 +165,37 @@ public class SearchFragment extends Fragment {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intent = null;
+        int id = item.getItemId();
+        String username = "johndoe";
+
+        switch(id){
+            case R.id.menuFeedback:
+                intent = new Intent(getActivity(), FeedbackActivity.class);
+                startActivity(intent);
+                break;
+//            case R.id.menuLogout:
+//                intent = new Intent(getActivity(), LoginActivity.class);
+//                intent.putExtra("username", username);
+//                startActivity(intent);
+//                break;
+//            case R.id.menuLogin:
+//                intent = new Intent(getActivity(), LoginActivity.class);
+//                startActivity(intent);
+//                break;
+            case R.id.menuSettings:
+                intent = new Intent(getActivity(), SettingsActivity.class);
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
+
+        return true;
+    }
+
     public void loadJSON(){
 
         APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
@@ -175,7 +209,7 @@ public class SearchFragment extends Fragment {
         Random rand = new Random();
         String keyword = keywords[rand.nextInt(keywords.length)];
 
-        call = apiInterface.getNewsSearch(keyword, language, "publishedAt", API_KEY);
+        call = apiInterface.getNewsSearch(keyword, SettingsActivity.language, "publishedAt", API_KEY);
 
         call.enqueue(new Callback<NewsModel>() {
             @Override

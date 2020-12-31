@@ -3,6 +3,7 @@ package com.nksexample.newsstrike;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
@@ -30,6 +32,12 @@ public class MainActivity extends AppCompatActivity {
     private int INTERNET_PERMISSION_CODE = 111;
     public static final String API_KEY = "b24fd2dbf4fa4d1c9364b00fe1cfeb82";
 
+    // Setting's shared pref
+    public static final String SHARED_PREFS = "setsharedprefs";
+    public static final String SHARED_LANGUAGE = "language";
+    public static final String SHARED_COUNTRY = "country";
+    public static final String SHARED_THEME = "theme";
+
     public static DatabaseHelper databaseHelper;
     
     public boolean isLoggedIn = false;
@@ -41,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //Load preferences
+        loadData();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -95,10 +107,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    void updateUI(){
-        String text = isLoggedIn ? "Logged In" : "Logged Out";
-        tvMainTest.setText(text);
-        invalidateOptionsMenu();
+    public void loadData() {
+
+        SharedPreferences settingPreferences = getSharedPreferences(MainActivity.SHARED_PREFS, MODE_PRIVATE);
+
+        SettingsActivity.language = settingPreferences.getString(MainActivity.SHARED_LANGUAGE, "");
+        SettingsActivity.country = settingPreferences.getString(MainActivity.SHARED_COUNTRY, "");
+        SettingsActivity.switchOnOff = settingPreferences.getBoolean(MainActivity.SHARED_THEME, false);
+
+        if (SettingsActivity.switchOnOff)
+            AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_YES));
+        else
+            AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_NO));
+
+
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener bottomNavItemSelectListener = new BottomNavigationView.OnNavigationItemSelectedListener() {

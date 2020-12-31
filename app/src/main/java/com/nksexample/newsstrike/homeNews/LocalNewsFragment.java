@@ -21,6 +21,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.nksexample.newsstrike.DatabaseHelper;
 import com.nksexample.newsstrike.MainActivity;
 import com.nksexample.newsstrike.NewsDetailActivity;
+import com.nksexample.newsstrike.SettingsActivity;
 import com.nksexample.newsstrike.api.APIClient;
 import com.nksexample.newsstrike.api.APIInterface;
 import com.nksexample.newsstrike.model.ArticleModel;
@@ -120,12 +121,17 @@ public class LocalNewsFragment extends Fragment implements SwipeRefreshLayout.On
 
         APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
 
-//        String country = Utils.getCountry();
-//        String language = Utils.getLanguage(); //If only when search then need
-
         Call<NewsModel> call;
 
-        call = apiInterface.getLocalNews("my", MainActivity.API_KEY);
+
+        // Since in NEWSAPI dont have Chinese lang support for Top headlines, temp use HK : https://newsapi.org/docs/endpoints/top-headlines
+        String country;
+        if(SettingsActivity.language.equals("zh"))
+            country = "hk";
+        else
+            country = SettingsActivity.country;
+
+        call = apiInterface.getLocalNews(country, MainActivity.API_KEY);
 
         call.enqueue(new Callback<NewsModel>() {
             @Override

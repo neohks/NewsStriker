@@ -161,8 +161,6 @@ public class NewsDetailActivity extends AppCompatActivity implements AppBarLayou
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        int id = item.getItemId();
-
         switch(item.getItemId()){
             case R.id.view_web:
                 Intent i = new Intent(Intent.ACTION_VIEW);

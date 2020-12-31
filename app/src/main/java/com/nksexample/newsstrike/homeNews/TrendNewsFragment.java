@@ -21,6 +21,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.nksexample.newsstrike.MainActivity;
 import com.nksexample.newsstrike.NewsDetailActivity;
 import com.nksexample.newsstrike.R;
+import com.nksexample.newsstrike.SettingsActivity;
 import com.nksexample.newsstrike.adapters.RViewAdapter;
 import com.nksexample.newsstrike.Utils;
 import com.nksexample.newsstrike.api.APIClient;
@@ -128,7 +129,7 @@ public class TrendNewsFragment extends Fragment implements SwipeRefreshLayout.On
 
         Call<NewsModel> call;
 
-        call = apiInterface.getNewsSearch("trend", language, "publishedAt", API_KEY);
+        call = apiInterface.getNewsSearch("trend", SettingsActivity.language, "publishedAt", API_KEY);
 
         call.enqueue(new Callback<NewsModel>() {
             @Override

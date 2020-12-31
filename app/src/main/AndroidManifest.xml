@@ -76,7 +76,7 @@
             android:name=".SettingsActivity"
             android:configChanges="uiMode"
             android:label="Settings"
-            android:parentActivityName=".MainActivity">
+            android:theme="@style/noAnimTheme">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
@@ -86,8 +86,7 @@
         <activity
             android:name=".FeedbackActivity"
             android:configChanges="uiMode"
-            android:label="Feedback"
-            android:parentActivityName=".MainActivity">
+            android:label="Feedback">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data

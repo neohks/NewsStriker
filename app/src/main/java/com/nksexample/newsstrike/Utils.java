@@ -61,13 +61,13 @@ public class Utils {
     }
 
     public static String getCountry(){
-        Locale locale = new Locale("en", "MY"); // Shouldve have ask for location from user to know which country instead of hard code!
+        Locale locale = new Locale(SettingsActivity.language, SettingsActivity.country); // Shouldve have ask for location from user to know which country instead of hard code!
         String country = locale.getCountry();
         return country.toLowerCase();
     }
 
     public static String getLanguage(){
-        Locale locale = new Locale("en", "MY");
+        Locale locale = new Locale(SettingsActivity.language, SettingsActivity.country);
         String lang = locale.getLanguage();
         return lang.toLowerCase();
     }
