@@ -172,10 +172,10 @@ public class SearchFragment extends Fragment {
         String username = "johndoe";
 
         switch(id){
-            case R.id.menuFeedback:
-                intent = new Intent(getActivity(), FeedbackActivity.class);
-                startActivity(intent);
-                break;
+//            case R.id.menuFeedback:
+//                intent = new Intent(getActivity(), FeedbackActivity.class);
+//                startActivity(intent);
+//                break;
 //            case R.id.menuLogout:
 //                intent = new Intent(getActivity(), LoginActivity.class);
 //                intent.putExtra("username", username);
@@ -200,7 +200,9 @@ public class SearchFragment extends Fragment {
 
         APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
 
-        String language = Utils.getLanguage();
+        String language = SettingsActivity.language;
+        if (language.isEmpty())
+            language = "en";
 
         Call<NewsModel> call;
 
@@ -209,7 +211,7 @@ public class SearchFragment extends Fragment {
         Random rand = new Random();
         String keyword = keywords[rand.nextInt(keywords.length)];
 
-        call = apiInterface.getNewsSearch(keyword, SettingsActivity.language, "publishedAt", API_KEY);
+        call = apiInterface.getNewsSearch(keyword, language, "publishedAt", API_KEY);
 
         call.enqueue(new Callback<NewsModel>() {
             @Override

@@ -86,10 +86,10 @@ public class NewsHomeFragment extends Fragment {
         String username = "johndoe";
 
         switch(id){
-            case R.id.menuFeedback:
-                intent = new Intent(getActivity(), FeedbackActivity.class);
-                startActivity(intent);
-                break;
+//            case R.id.menuFeedback:
+//                intent = new Intent(getActivity(), FeedbackActivity.class);
+//                startActivity(intent);
+//                break;
 //            case R.id.menuLogout:
 //                intent = new Intent(getActivity(), LoginActivity.class);
 //                intent.putExtra("username", username);

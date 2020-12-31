@@ -114,10 +114,10 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void updateViews() {
 
-        if (language.equals("en"))
-            rbLanguage = findViewById(R.id.rbEng);
-        else
+        if (language.equals("zh"))
             rbLanguage = findViewById(R.id.rbChinese);
+        else
+            rbLanguage = findViewById(R.id.rbEng);
 
         rbLanguage.setChecked(true);
 
@@ -148,7 +148,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         //Save State
         saveData();
-        Toast.makeText(this, "Hi! " + rbCountry.getText().toString().toLowerCase()  , Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Hi! " + rbCountry.getText().toString().toLowerCase()  , Toast.LENGTH_SHORT).show();
 
     }
 
@@ -160,7 +160,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         //Save State
         saveData();
-        Toast.makeText(this, "Hi! " + rbLanguage.getText().toString().toLowerCase()  , Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Hi! " + rbLanguage.getText().toString().toLowerCase()  , Toast.LENGTH_SHORT).show();
 
     }
 
